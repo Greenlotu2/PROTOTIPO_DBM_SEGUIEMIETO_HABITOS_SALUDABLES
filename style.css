@@ -1,0 +1,372 @@
+/* Variables de Color */
+:root {
+    --primary-color: #007bff; /* Azul vibrante */
+    --secondary-color: #f8f9fa; /* Gris claro */
+    --text-color: #343a40; /* Negro oscuro */
+    --light-text: #ffffff;
+    --border-color: #ced4da;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --card-bg: #ffffff;
+}
+
+/* --- Base y Tipografía --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* --- Estilos de Autenticación (index.html) --- */
+.container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.logo {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.form-card {
+    display: none;
+    padding: 20px 0;
+}
+
+.form-card.active {
+    display: block;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.input-group input, .input-group select, .input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.switch-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.switch-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: var(--danger-color);
+    border: 1px solid #f5c6cb;
+    display: none; /* Ocultar por defecto */
+}
+
+
+/* --- Botones Genéricos --- */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, opacity 0.3s;
+    font-size: 1rem;
+    text-decoration: none; /* Añadido para enlaces (botones) */
+    display: inline-block; /* Asegura el correcto comportamiento del botón/enlace */
+    text-align: center;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+}
+
+.primary-btn:hover {
+    background-color: #0056b3;
+}
+
+.secondary-btn {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.secondary-btn:hover {
+    background-color: #c0c0c0;
+}
+
+.full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* --- Estilos del Dashboard (dashboard.html) y Datos Personales --- */
+.dashboard-body {
+    background-color: #e9ecef;
+}
+
+header {
+    background-color: var(--card-bg);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-content {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.metrics-section, .habits-section {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.metrics-section h2, .habits-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* --- Gráficas Circulares (Dashboard) --- */
+.charts-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart-card {
+    text-align: center;
+    flex-basis: 200px;
+}
+
+.chart-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary-color) 0%, var(--border-color) 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+
+.progress-bar {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: var(--card-bg);
+    border-radius: 50%;
+}
+
+.progress-text {
+    position: relative;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+/* --- Lista de Hábitos --- */
+.habits-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.habit-card {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.habit-card:hover {
+    transform: translateY(-2px);
+}
+
+.habit-info h4 {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.habit-info p {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.complete-btn {
+    padding: 10px 15px;
+    background-color: var(--success-color);
+    color: var(--light-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.complete-btn.disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+}
+
+/* --- Modal/Formulario de Datos Personales y Creación de Hábito --- */
+
+.data-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+}
+
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+    margin-bottom: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.accept-btn {
+    width: 200px;
+    float: right;
+    margin-top: 20px;
+}
+
+.form-card::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.inline-label {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+/* --- Estilos para el Formulario de Hábito Dinámico (create_habit.html) --- */
+
+.large-modal { /* Usado en create_habit.html */
+    max-width: 850px;
+}
+
+.habit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+    margin-bottom: 20px;
+}
+
+.habit-grid .column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.frequency-group {
+    display: flex;
+    gap: 5px;
+}
+
+.frequency-group input[type="checkbox"] {
+    display: none;
+}
+
+.frequency-group label {
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: normal;
+    transition: background-color 0.2s, color 0.2s;
+    margin-bottom: 0; 
+}
+
+.frequency-group input[type="checkbox"]:checked + label {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    border-color: var(--primary-color);
+}
+
+.time-group {
+    display: flex;
+    flex-direction: column;
+}

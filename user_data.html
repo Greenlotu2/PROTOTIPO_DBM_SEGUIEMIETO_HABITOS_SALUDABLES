@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Datos Personales</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <header>
+        <h1 class="logo">3UniHabitsTracker</h1>
+        <nav>
+            <button id="btn-logout" class="btn secondary-btn"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </nav>
+    </header>
+
+    <div class="container data-container">
+        <div class="form-card active">
+            <h2>Actualizar Información Personal</h2>
+            <form id="form-personal-data">
+                
+                <div class="grid-form">
+                    <div class="column">
+                        <div class="input-group">
+                            <label for="user-name">Nombre</label>
+                            <input type="text" id="user-name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-lastname">Apellidos</label>
+                            <input type="text" id="user-lastname" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-dob">Fecha de nacimiento</label>
+                            <input type="date" id="user-dob" placeholder="dd/mm/yyyy" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-sex">Sexo</label>
+                            <select id="user-sex" required>
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Hombre">Hombre</option>
+                                <option value="Mujer">Mujer</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="column">
+                        <div class="input-group">
+                            <label for="user-weight">Peso (kg)</label>
+                            <input type="number" id="user-weight" min="1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-height">Estatura (cm)</label>
+                            <input type="number" id="user-height" min="1" value="180" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="user-activity">Nivel de actividad física</label>
+                            <select id="user-activity" required>
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Sedentario">Sedentario</option>
+                                <option value="Ligero">Ligero</option>
+                                <option value="Moderado">Moderado</option>
+                                <option value="Activo">Activo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn primary-btn accept-btn">Aceptar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

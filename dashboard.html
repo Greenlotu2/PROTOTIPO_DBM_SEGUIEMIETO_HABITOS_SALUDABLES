@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <header>
+        <h1 class="logo">UniHabitTracker</h1>
+        <nav>
+            <button id="btn-logout" class="btn secondary-btn"><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </nav>
+    </header>
+
+    <main class="dashboard-content" id="dashboard-content">
+        <section class="metrics-section">
+            <h2><i class="fas fa-chart-bar"></i> Tu Progreso Semanal</h2>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>Progreso General</h3>
+                    <div class="progress-circle" id="general-progress">
+                        <div class="progress-bar"></div>
+                        <div class="progress-text">0%</div>
+                    </div>
+                    <p>Meta: 70% de hábitos completados</p>
+                </div>
+                <div class="chart-card">
+                    <h3>Completados Hoy</h3>
+                    <div class="progress-circle" id="daily-progress">
+                        <div class="progress-bar"></div>
+                        <div class="progress-text">0/0</div>
+                    </div>
+                    <p id="daily-summary">0 de 0 hábitos registrados</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="habits-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list-check"></i> Mis Hábitos</h2>
+                <a href="create_habit.html" class="btn primary-btn" id="btn-show-add-habit"><i class="fas fa-plus"></i> Agregar Hábito</a>
+            </div>
+            
+            <div id="habits-list" class="habits-container">
+                <p id="no-habits-message">No tienes hábitos registrados. ¡Crea uno!</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

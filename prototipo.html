@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3UniHabitsTracker - Prototipo</title>
+    <style>
+        /* ESTILOS GENERALES Y RESET (Basado en RNF1: Diseño Responsivo) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER (Basado en Wireframe Principal) */
+        header {
+            background-color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span { color: #0099cc; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #0099cc;
+            font-weight: 500;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .btn-nav {
+            background-color: #0099cc;
+            color: white !important;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        /* CONTENEDOR DE VISTAS (SPA - Single Page Application Logic) */
+        .view-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ESTILOS COMPARTIDOS DE FORMULARIOS Y TARJETAS */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h2 { margin-bottom: 1.5rem; color: #333; }
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #0099cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover { background-color: #0077a3; }
+
+        .link-action {
+            display: block;
+            margin-top: 15px;
+            color: #0099cc;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* VISTA 1: LANDING / SPLIT SCREEN (Wireframe 1) */
+        #view-landing {
+            display: flex;
+            width: 100%;
+            height: 80%;
+            max-width: 1000px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .landing-left {
+            flex: 1;
+            background: #e0e0e0; /* Gris del wireframe */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .triangle-bg {
+            width: 0; 
+            height: 0; 
+            border-top: 500px solid transparent;
+            border-bottom: 500px solid transparent;
+            border-left: 500px solid #dcdcdc;
+            position: absolute;
+            left: 0;
+        }
+
+        .landing-right {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #e6e6e6;
+        }
+
+        /* VISTA 4: DASHBOARD (Wireframe 5) */
+        #view-dashboard {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .dash-menu {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dash-stats {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Gráficas circulares CSS (Conic Gradient) */
+        .progress-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .progress-circle::before {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .percentage {
+            position: relative;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Colores de estado del Wireframe */
+        .circle-good { background: conic-gradient(#00ff00 80%, #eee 0); } /* Alimentación */
+        .circle-regular { background: conic-gradient(#f1c40f 30%, #eee 0); } /* Actividad Física */
+        .circle-bad { background: conic-gradient(#ff0000 10%, #eee 0); } /* Descanso */
+
+        .error-msg { color: red; font-size: 0.8rem; display: none; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <div style="background:#ddd; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center;">🍎</div>
+            3UniHabitsTracker
+        </div>
+        <nav class="nav-links" id="nav-guest">
+            <a onclick="navigateTo('view-landing')">Acerca de Nosotros</a>
+            <a onclick="navigateTo('view-login')" class="btn-nav">Iniciar sesión</a>
+        </nav>
+        <nav class="nav-links hidden" id="nav-user">
+            <span id="user-display-name">Usuario</span>
+            <a onclick="logout()" class="btn-nav">Cerrar sesión</a>
+        </nav>
+    </header>
+
+    <div class="view-container">
+        
+        <div id="view-landing" class="active-view">
+            <div class="landing-left">
+                <h2 style="z-index: 2;">Mejora tu salud</h2>
+            </div>
+            <div class="landing-right">
+                <h2>Registrate para comenzar a</h2>
+                <button class="btn-primary" onclick="navigateTo('view-personal-data')">Quiero registrarme</button>
+            </div>
+        </div>
+
+        <div id="view-personal-data" class="card hidden">
+            <h2>Datos personales</h2>
+            <p style="margin-bottom:15px; font-size:0.9rem;">Ayudanos a mejorar tu experiencia</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" id="reg-nombre">
+                </div>
+                <div class="form-group">
+                    <label>Peso (kg)</label>
+                    <input type="number" id="reg-peso">
+                </div>
+                <div class="form-group">
+                    <label>Apellidos</label>
+                    <input type="text" id="reg-apellidos">
+                </div>
+                <div class="form-group">
+                    <label>Estatura (cm)</label>
+                    <input type="number" id="reg-estatura" placeholder="180 cm">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Fecha de nacimiento</label>
+                <input type="date" id="reg-fecha">
+            </div>
+            <div class="form-group">
+                <label>Nivel de actividad física</label>
+                <select id="reg-actividad">
+                    <option value="Bajo">Bajo</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Alto">Alto</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Sexo</label>
+                <select id="reg-sexo">
+                    <option value="Hombre">Hombre</option>
+                    <option value="Mujer">Mujer</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="processPersonalData()">Siguiente</button>
+        </div>
+
+        <div id="view-credentials" class="card hidden">
+            <h2>Crear cuenta</h2>
+            <div class="form-group">
+                <label>Correo</label>
+                <input type="email" id="reg-email" placeholder="example@dominio.com">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="reg-pass" placeholder="********">
+            </div>
+            <div class="form-group">
+                <label>Confirmar contraseña</label>
+                <input type="password" id="reg-pass-confirm" placeholder="********">
+                <p id="reg-error" class="error-msg">Las contraseñas no coinciden</p>
+            </div>
+            <div class="form-group" style="display:flex; gap:10px; align-items:center;">
+                <input type="checkbox" style="width:auto;" id="reg-terms">
+                <label style="margin:0; font-size:0.9rem;">Acepto los <a href="#" style="color:#0099cc;">Terminos y Condiciones</a></label>
+            </div>
+            <button class="btn-primary" onclick="registerUser()">Crear cuenta</button>
+        </div>
+
+        <div id="view-login" class="card hidden">
+            <h2>Iniciar sesión</h2>
+            <div class="form-group">
+                <label>Correo</label>
+                <input type="email" id="login-email" placeholder="example@dominio.com">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="login-pass" placeholder="********">
+            </div>
+            <a href="#" class="link-action" style="text-align:left; margin-bottom:15px;">Olvide mi contraseña</a>
+            <p id="login-error" class="error-msg">Credenciales incorrectas</p>
+            <button class="btn-primary" onclick="login()">Entrar</button>
+        </div>
+
+        <div id="view-dashboard" class="hidden">
+            <div class="dash-menu">
+                <h3 style="text-align:center; margin-bottom:20px; color:#666;">Menú principal</h3>
+                <button class="btn-primary">Actualizar metas</button>
+                <button class="btn-primary">Gestionar habitos</button>
+                <button class="btn-primary">Gestionar datos de usuario</button>
+                <button class="btn-primary">Historial</button>
+            </div>
+            <div class="dash-stats">
+                <div class="stat-card" style="grid-column: span 2;">
+                    <div class="progress-circle circle-good">
+                        <span class="percentage">80%</span>
+                    </div>
+                    <h3>Alimentación</h3>
+                    <p>Bien</p>
+                </div>
+                <div class="stat-card">
+                    <div class="progress-circle circle-regular">
+                        <span class="percentage">30%</span>
+                    </div>
+                    <h3>Actividad Fisica</h3>
+                    <p>Regular</p>
+                </div>
+                <div class="stat-card">
+                    <div class="progress-circle circle-bad">
+                        <span class="percentage">10%</span>
+                    </div>
+                    <h3>Descanso</h3>
+                    <p>Malo</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* --- LÓGICA Y BASE DE DATOS LOCAL (localStorage) --- */
+        
+        // Objeto temporal para guardar datos entre pasos del registro
+        let tempUserData = {};
+
+        // Función para navegar entre vistas
+        function navigateTo(viewId) {
+            // Ocultar todas las vistas
+            document.querySelectorAll('.view-container > div').forEach(div => div.classList.add('hidden'));
+            // Mostrar la deseada
+            document.getElementById(viewId).classList.remove('hidden');
+            
+            // Ajuste de header según dashboard
+            if(viewId === 'view-dashboard'){
+                document.getElementById('nav-guest').classList.add('hidden');
+                document.getElementById('nav-user').classList.remove('hidden');
+            } else if(viewId === 'view-landing' || viewId === 'view-login') {
+                document.getElementById('nav-guest').classList.remove('hidden');
+                document.getElementById('nav-user').classList.add('hidden');
+            }
+        }
+
+        // Paso 1 del Registro: Procesar Datos Personales
+        function processPersonalData() {
+            const nombre = document.getElementById('reg-nombre').value;
+            const apellido = document.getElementById('reg-apellidos').value;
+            
+            if(!nombre || !apellido) {
+                alert("Por favor llena los campos obligatorios");
+                return;
+            }
+
+            // Guardamos temporalmente en memoria RAM
+            tempUserData = {
+                nombre: nombre,
+                apellido: apellido,
+                peso: document.getElementById('reg-peso').value,
+                estatura: document.getElementById('reg-estatura').value,
+                fechaNacimiento: document.getElementById('reg-fecha').value,
+                actividad: document.getElementById('reg-actividad').value,
+                sexo: document.getElementById('reg-sexo').value
+            };
+
+            // Avanzar al siguiente paso (Credenciales)
+            navigateTo('view-credentials');
+        }
+
+        // Paso 2 del Registro: Crear Cuenta (Base de Datos Local)
+        function registerUser() {
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
+            const confirm = document.getElementById('reg-pass-confirm').value;
+
+            // Validación simple (RNF Seguridad básica)
+            if(pass !== confirm) {
+                document.getElementById('reg-error').style.display = 'block';
+                return;
+            }
+            if(!email || !pass) {
+                alert("Datos incompletos");
+                return;
+            }
+
+            // SIMULACIÓN BASE DE DATOS SQL: Tabla 'Estudiantes'
+            // Recuperamos los usuarios existentes del localStorage
+            let dbEstudiantes = JSON.parse(localStorage.getItem('db_estudiantes')) || [];
+
+            // Verificar duplicados (Regla de Negocio 1 del Caso de Uso Crear Cuenta)
+            const existe = dbEstudiantes.find(u => u.email === email);
+            if(existe) {
+                alert("El correo ya está registrado");
+                return;
+            }
+
+            // Crear objeto final del usuario (Mapeo Clase Estudiante -> JSON)
+            const nuevoUsuario = {
+                id_estudiante: Date.now(), // ID autogenerado
+                email: email,
+                password: btoa(pass), // Simulación de hashing básico (Base64)
+                ...tempUserData // Spread operator para unir datos personales
+            };
+
+            // INSERT INTO Estudiantes
+            dbEstudiantes.push(nuevoUsuario);
+            localStorage.setItem('db_estudiantes', JSON.stringify(dbEstudiantes));
+
+            alert("Cuenta creada exitosamente");
+            navigateTo('view-login');
+        }
+
+        // Inicio de Sesión
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            const errorMsg = document.getElementById('login-error');
+
+            // SELECT * FROM Estudiantes WHERE email = ? AND password = ?
+            let dbEstudiantes = JSON.parse(localStorage.getItem('db_estudiantes')) || [];
+            
+            // Verificación (Simulando RNF7 Almacenamiento seguro comparando hash)
+            const usuario = dbEstudiantes.find(u => u.email === email && u.password === btoa(pass));
+
+            if(usuario) {
+                errorMsg.style.display = 'none';
+                // Guardar sesión (Cookies simuladas)
+                sessionStorage.setItem('usuario_activo', JSON.stringify(usuario));
+                document.getElementById('user-display-name').textContent = usuario.nombre;
+                navigateTo('view-dashboard');
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        // Cerrar Sesión
+        function logout() {
+            sessionStorage.removeItem('usuario_activo');
+            navigateTo('view-landing');
+        }
+
+        // Inicialización
+        window.onload = () => {
+            // Comprobar si ya hay sesión iniciada
+            const sesion = sessionStorage.getItem('usuario_activo');
+            if(sesion) {
+                const u = JSON.parse(sesion);
+                document.getElementById('user-display-name').textContent = u.nombre;
+                navigateTo('view-dashboard');
+            }
+        };
+
+    </script>
+</body>
+</html>
